@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Request</title>
+</head>
+<body style="background-color: black; color: white;">
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, consectetur quam hic ex laboriosam deserunt suscipit. Nostrum dolorem quaerat dignissimos pariatur sequi illo repellat, deserunt, quisquam sunt dolorum, modi similique veritatis. Hic, accusantium dolorem! Vitae.</p>
+    
+</body>
+
+<script>
+    const requestUrl = 'https://api.github.com/users/iamarijit05';
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET',requestUrl);
+    xhr.onreadystatechange = function() {
+        console.log(xhr.readyState);
+        if(xhr.readyState === 4) {
+            const data = JSON.parse(this.responseText)
+            console.log(` Followers: ${data.avatar_url}`)
+        }
+     }
+    xhr.send();
+</script>
+</html>

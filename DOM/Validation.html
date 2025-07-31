@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Validation</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            width: 400px;
+            text-align: center;
+        }
+
+        label {
+            display: inline-block;
+            width: 120px;
+            text-align: right;
+            margin-right: 10px;
+            color: #333;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 20px;
+            margin-top: 10px;
+        }
+
+        input {
+            border-radius: 5px;
+            font-size: 15px;
+            border: 1px solid black;
+            height: 25px;
+            width: 200px;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        .results {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 id="heading1">Form Validation Checker</h1>
+        <form id="form1">
+            <p>
+                <label for="nameinput">Enter Name: </label>
+                <input type="text" id="nameinput">
+            </p>
+            <div id="nameError" class="error"></div>
+
+            <p>
+                <label for="emailinput">Enter Email: </label>
+                <input type="email" id="emailinput">
+            </p>
+            <div id="emailError" class="error"></div>
+
+            <p>
+                <label for="passwordinput">Enter Password: </label>
+                <input type="password" id="passwordinput">
+            </p>
+            <div id="passwordError" class="error"></div>
+
+            <button id="btn" disabled>Check</button>
+
+            <div class="results"></div>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('form1');
+        const nameInput = document.getElementById('nameinput');
+        const emailInput = document.getElementById('emailinput');
+        const passwordInput = document.getElementById('passwordinput');
+        const results = document.querySelector('.results');
+        const submitBtn = document.getElementById('btn');
+
+        const nameError = document.getElementById('nameError');
+        const emailError = document.getElementById('emailError');
+        const passwordError = document.getElementById('passwordError');
+
+        function validateName() {
+            let trimmedName = nameInput.value.trim();
+            if (trimmedName.length >= 3) {
+                nameError.textContent = '';
+                return true;
+            } else {
+                nameError.textContent = 'Name should contain at least 3 characters.';
+                return false;
+            }
+        }
+
+        function validateEmail() {
+            const email = emailInput.value.trim();
+            const regex = /^\S+@\S+\.\S+$/;
+            if (regex.test(email)) {
+                emailError.textContent = '';
+                return true;
+            } else {
+                emailError.textContent = 'Invalid email format.';
+                return false;
+            }
+        }
+
+        function validatePassword() {
+            const password = passwordInput.value;
+            const regex = /^(?=.*[A-Za-z])(?=.*\d).{6,}$/;
+            if (regex.test(password)) {
+                passwordError.textContent = '';
+                return true;
+            } else {
+                passwordError.textContent = 'Password must be 6+ characters with letters and numbers.';
+                return false;
+            }
+        }
+
+        function checkFormValidity() {
+            const isNameValid = validateName();
+            const isEmailValid = validateEmail();
+            const isPasswordValid = validatePassword();
+
+            submitBtn.disabled = !(isNameValid && isEmailValid && isPasswordValid);
+        }
+
+        // Attach real-time listeners
+        nameInput.addEventListener('input', checkFormValidity);
+        emailInput.addEventListener('input', checkFormValidity);
+        passwordInput.addEventListener('input', checkFormValidity);
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            results.textContent = "Form submitted successfully!";
+        });
+    </script>
+</body>
+
+</html>
